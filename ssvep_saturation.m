@@ -11,10 +11,10 @@ rng('shuffle');
 t_frames = 12; % 29 frames yields frequency of 4.9655 at 144Hz
 
 % Trial Duration
-trialdur = 4;
+trialdur = 20;
 
 % Break Duration
-breakdur = 4;
+breakdur = 20;
 
 % Contrasts
 contrasts = [0 0.08, 0.16, 0.32, 0.64];
