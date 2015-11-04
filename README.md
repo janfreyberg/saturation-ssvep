@@ -9,3 +9,8 @@ Runs through a few "training" trials (demos), then runs randomised ssvep trials 
 - Change stimulus size and spatial frequency by adjusting `stimsize` and `cycperdeg`
 
 To make sure the computer is sending the right triggers to your EEG setup, make sure to take a look at any line containing the function `outp`
+
+The functions `config_io` and `outp` come from here:
+http://apps.usd.edu/coglab/psyc770/IO32.html
+
+Everything else should be the psychtoolbox, matlab, or by basic functions repository
