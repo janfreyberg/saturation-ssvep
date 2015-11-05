@@ -3,18 +3,18 @@ savefile = fullfile(pwd, 'Results', 'test_data.mat');
 scripts = savescripts;
 try
 %% Setup
-Screen('Preference', 'SkipSyncTests', 1); % JUST FOR TESTING
+% Screen('Preference', 'SkipSyncTests', 1); % JUST FOR TESTING
 scr_no = 0; % JUST FOR TESTING
 rng('shuffle');
 
 % Target Frequency
-t_frames = 12; % 29 frames yields frequency of 4.9655 at 144Hz
+t_frames = 24; % 29 frames yields frequency of 4.9655 at 144Hz
 
 % Trial Duration
 trialdur = 20;
 
 % Break Duration
-breakdur = 20;
+breakdur = 5;
 
 % Contrasts
 contrasts = [0 0.08, 0.16, 0.32, 0.64];
@@ -35,9 +35,9 @@ scr_background = 127.5;
 %% Set up Keyboard, Screen, Sound
 
 % Variables related to Display
-scr_diagonal = 13;
+scr_diagonal = 24;
 scr_distance = 60;
-frame_dur = 1/60;
+frame_dur = 1/144;
 
 % Keyboard
 KbName('UnifyKeyNames');
@@ -53,7 +53,7 @@ KbQueueCreate([], keyList); clear keyList
 ListenChar(2);
 
 % I/O driver
-% config_io
+config_io
 address = hex2dec('D010');
 
 % Sound
@@ -132,41 +132,41 @@ KbStrokeWait;
 
 
 %% Demonstration
-% Pre-Trial
-DrawFormattedText(scr, ['Practice Trial', '\nReady?'], 'center', ycen-pxsize/3, 0);
-Screen('DrawLines', scr, fixLines, fixWidth, fixColor, [xcen, ycen]);
-Screen('Flip', scr);
-KbStrokeWait;
-Screen('DrawLines', scr, fixLines, fixWidth, fixColor, [xcen, ycen]); 
-Screen('Flip', scr);
-WaitSecs(3);
-
-% Trial
-trial_frames = ceil(0.5 * trialdur / frame_dur);
-draw_angle = rand*180;
-for i = 1:trial_frames;
-    
-    if mod(i, t_frames) == 0
-        draw_angle = rand * 180; % update angle
-    end
-
-    Screen('DrawTexture', scr, grating{numel(contrasts)}, [], [], draw_angle, [], flicker_wave(mod(i-1, t_frames)+1));
-    Screen('DrawLines', scr, fixLines, fixWidth, fixColor, [xcen, ycen]);
-    t_last = Screen('Flip', scr);
-end
-
-% Take a Break
-KbQueueStart;
-for lapsedTime = 0:breakdur
-DrawFormattedText(scr, ['Break for ' num2str(breakdur-lapsedTime)], 'center', ycen-pxsize/3, 0);
-Screen('Flip', scr);
-[~, pressed] = KbQueueCheck;
-if pressed(esc_key)
-    error('Interrupted in the break!');
-end
-WaitSecs(1);
-end
-KbQueueStop;
+% % Pre-Trial
+% DrawFormattedText(scr, ['Practice Trial', '\nReady?'], 'center', ycen-pxsize/3, 0);
+% Screen('DrawLines', scr, fixLines, fixWidth, fixColor, [xcen, ycen]);
+% Screen('Flip', scr);
+% KbStrokeWait;
+% Screen('DrawLines', scr, fixLines, fixWidth, fixColor, [xcen, ycen]); 
+% Screen('Flip', scr);
+% WaitSecs(3);
+% 
+% % Trial
+% trial_frames = ceil(0.5 * trialdur / frame_dur);
+% draw_angle = rand*180;
+% for i = 1:trial_frames;
+%     
+%     if mod(i, t_frames) == 0
+%         draw_angle = rand * 180; % update angle
+%     end
+% 
+%     Screen('DrawTexture', scr, grating{numel(contrasts)}, [], [], draw_angle, [], flicker_wave(mod(i-1, t_frames)+1));
+%     Screen('DrawLines', scr, fixLines, fixWidth, fixColor, [xcen, ycen]);
+%     t_last = Screen('Flip', scr);
+% end
+% 
+% % Take a Break
+% KbQueueStart;
+% for lapsedTime = 0:breakdur
+% DrawFormattedText(scr, ['Break for ' num2str(breakdur-lapsedTime)], 'center', ycen-pxsize/3, 0);
+% Screen('Flip', scr);
+% [~, pressed] = KbQueueCheck;
+% if pressed(esc_key)
+%     error('Interrupted in the break!');
+% end
+% WaitSecs(1);
+% end
+% KbQueueStop;
 
 
 %% Go through Trials
@@ -207,7 +207,7 @@ for iTrial = 1:numel(contrast_order)
         % cycle
         Screen('DrawTexture', scr, grating{contrast_order(iTrial)}, [], draw_rect, draw_angle, [], flicker_wave(mod(i-1, t_frames)+1));
 %         Screen('DrawDots', scr, [0; 0], 3*fixLength, 127.5, [xcen, ycen], 2);
-        Screen('DrawTexture', scr, fix_apert);
+%         Screen('DrawTexture', scr, fix_apert);
         Screen('DrawLines', scr, fixLines, fixWidth, fixColor, [xcen, ycen]);
         frame_stamp(i) = Screen('Flip', scr);
     end
